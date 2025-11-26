@@ -1,0 +1,154 @@
+/* ================================================
+   APPLE / VISION OS DESIGN SYSTEM
+   ================================================ */
+
+:root {
+    /* Core Variables */
+    --apple-glass: rgba(20, 20, 25, 0.65);
+    --apple-glass-border: rgba(255, 255, 255, 0.12);
+    --apple-glass-highlight: rgba(255, 255, 255, 0.15);
+    --apple-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --apple-radius: 24px;
+    --apple-radius-sm: 14px;
+
+    /* Typography */
+    --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, sans-serif;
+
+    /* Colors */
+    --apple-blue: #007AFF;
+    --apple-text-primary: rgba(255, 255, 255, 0.92);
+    --apple-text-secondary: rgba(255, 255, 255, 0.65);
+}
+
+/* Typography Override */
+body {
+    font-family: var(--font-apple) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ================================================
+   COMPONENTS
+   ================================================ */
+
+/* 1. Apple Glass Card (VisionOS Style) */
+.apple-card {
+    background: var(--apple-glass);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid var(--apple-glass-border);
+    border-top: 1px solid var(--apple-glass-highlight);
+    border-radius: var(--apple-radius);
+    box-shadow: var(--apple-shadow);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.apple-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 2. Apple Button (Pill) */
+.apple-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.apple-btn-primary {
+    background: white;
+    color: black;
+    border: 1px solid white;
+}
+
+.apple-btn-primary:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.apple-btn-glass {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.apple-btn-glass:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 3. Apple Input Fields */
+.apple-input {
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--apple-radius-sm);
+    color: white;
+    font-family: var(--font-apple);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.apple-input:focus {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: var(--apple-blue);
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+}
+
+/* 4. Section Titles */
+.apple-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+}
+
+/* 5. Badges / Chips */
+.apple-chip {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--apple-text-secondary);
+    backdrop-filter: blur(4px);
+}
+
+/* Override existing classes to enforce Apple style */
+.glass-card-premium,
+.project-card,
+.contact-card {
+    @extend .apple-card;
+    /* Conceptual, we'll apply classes in HTML or use direct overrides below */
+    background: var(--apple-glass) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    border: 1px solid var(--apple-glass-border) !important;
+    border-top: 1px solid var(--apple-glass-highlight) !important;
+    border-radius: var(--apple-radius) !important;
+    box-shadow: var(--apple-shadow) !important;
+}
+
+.btn {
+    border-radius: 999px !important;
+    letter-spacing: -0.01em !important;
+    font-weight: 600 !important;
+}

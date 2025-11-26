@@ -1,0 +1,26 @@
+[
+    {
+        "issuer": "EC-Council",
+        "issuedDate": "2024",
+        "title": "CEH v12 Training",
+        "subtitle": "Offensive Security, Red Ops",
+        "buttonText": "View Credential",
+        "cardClass": "one"
+    },
+    {
+        "issuer": "Google • Coursera",
+        "issuedDate": "2023",
+        "title": "Google Cybersecurity",
+        "subtitle": "SOC Playbooks, DFIR, SIEM",
+        "buttonText": "View Credential",
+        "cardClass": "two"
+    },
+    {
+        "issuer": "TryHackMe / HTB",
+        "issuedDate": "Ongoing Labs",
+        "title": "Advanced Pentesting",
+        "subtitle": "Adversary Emulation Paths",
+        "buttonText": "View Lab",
+        "cardClass": "three"
+    }
+]

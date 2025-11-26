@@ -1,0 +1,20 @@
+[
+    {
+        "title": "OIPA – OSINT Image Privacy Analyzer",
+        "description": "Face detection, metadata extraction, reverse search & privacy scoring tool.",
+        "buttonText": "View Project",
+        "link": "#"
+    },
+    {
+        "title": "Drishya – Real-Time Face Recognition OSINT",
+        "description": "Face vector DB, entity extraction, OSINT enrichment, live tracking.",
+        "buttonText": "View Project",
+        "link": "#"
+    },
+    {
+        "title": "Network Attack Lab",
+        "description": "ARP spoofing, DNS poisoning, MITM, traffic sniffing, security fixes.",
+        "buttonText": "View Project",
+        "link": "#"
+    }
+]

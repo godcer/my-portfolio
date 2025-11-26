@@ -1,0 +1,498 @@
+// Portfolio Black Hole Simulation
+function initPortfolioBlackHole() {
+    const canvas = document.getElementById("sim");
+    const ctx = canvas.getContext("2d", { alpha: true });
+
+    // UI
+    const pCountEl = document.getElementById("pCount");
+    const gravEl = document.getElementById("grav");
+    const fadeEl = document.getElementById("fade");
+    const mouseToggleEl = document.getElementById("mouseToggle");
+    const resetBtn = document.getElementById("resetBtn");
+    const burstBtn = document.getElementById("burstBtn");
+    const addStarBtn = document.getElementById("addStarBtn");
+    const clearStarsBtn = document.getElementById("clearStarsBtn");
+
+    const pCountLabel = document.getElementById("pCountLabel");
+    const gravLabel = document.getElementById("gravLabel");
+    const fadeLabel = document.getElementById("fadeLabel");
+
+    const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    let W = 0,
+        H = 0,
+        CX = 0,
+        CY = 0;
+
+    const config = {
+        particleCount: +pCountEl.value,
+        G: +gravEl.value, // gravitational constant-ish
+        fade: +fadeEl.value, // 0.02..0.25
+        bhMass: 1.0,
+        mouseMass: 0.65,
+        horizonRadius: 35, // px at DPR=1
+        spawnSpeed: 0.65,
+        maxSpeed: 3.5,
+        mouseGravity: mouseToggleEl.checked,
+
+        // Stars
+        starGravityScale: 0.25, // stars attract particles (fraction of G)
+        starDisruptK: 2.3, // BH horizon multiplier for disruption radius
+        starMax: 8
+    };
+
+    const state = {
+        particles: [],
+        stars: [],
+        mouse: { x: 0, y: 0, down: false, active: false },
+        t: 0
+    };
+
+    function resize() {
+        const cssW = window.innerWidth;
+        const cssH = window.innerHeight;
+        W = Math.floor(cssW * DPR);
+        H = Math.floor(cssH * DPR);
+        canvas.width = W;
+        canvas.height = H;
+        canvas.style.width = cssW + "px";
+        canvas.style.height = cssH + "px";
+        CX = W / 2;
+        CY = H / 2;
+        drawBackdrop(true);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    // Utils
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+    // Particles
+    function spawnParticle(edgeOnly = true) {
+        let x, y;
+        if (edgeOnly) {
+            const edge = Math.floor(Math.random() * 4);
+            if (edge === 0) {
+                x = rand(0, W);
+                y = -10;
+            } else if (edge === 1) {
+                x = W + 10;
+                y = rand(0, H);
+            } else if (edge === 2) {
+                x = rand(0, W);
+                y = H + 10;
+            } else {
+                x = -10;
+                y = rand(0, H);
+            }
+        } else {
+            x = rand(0, W);
+            y = rand(0, H);
+        }
+
+        const dx = CX - x;
+        const dy = CY - y;
+        const r = Math.hypot(dx, dy) + 0.0001;
+        const tangential = { x: -dy / r, y: dx / r };
+        const speed = config.spawnSpeed * rand(0.6, 1.2);
+
+        return {
+            x,
+            y,
+            vx: tangential.x * speed,
+            vy: tangential.y * speed,
+            hue: rand(190, 260),
+            life: 0
+        };
+    }
+
+    function ensureParticleCount(n) {
+        const arr = state.particles;
+        if (arr.length > n) arr.length = n;
+        while (arr.length < n) arr.push(spawnParticle(true));
+    }
+
+    // Stars
+    function addStar(opts = {}) {
+        if (state.stars.length >= config.starMax) return;
+        const rMin = Math.max(90 * DPR, config.horizonRadius * DPR * 3.2);
+        const rMax = Math.min(W, H) * 0.35;
+        const r = opts.r || rand(rMin, rMax);
+        const ang = opts.ang ?? rand(0, Math.PI * 2);
+
+        const x = CX + Math.cos(ang) * r;
+        const y = CY + Math.sin(ang) * r;
+
+        const vCirc = Math.sqrt((config.G * config.bhMass) / r); // rough
+        const orbitScale = 0.35;
+        const tnx = -Math.sin(ang);
+        const tny = Math.cos(ang);
+
+        const mass = opts.mass || rand(1.2, 2.4);
+        const radius = (opts.radius || rand(5, 9)) * DPR;
+        const hue = opts.hue || rand(35, 60);
+
+        state.stars.push({
+            x,
+            y,
+            vx: tnx * vCirc * orbitScale,
+            vy: tny * vCirc * orbitScale,
+            mass,
+            radius,
+            hue,
+            sat: 90,
+            light: 65
+        });
+    }
+
+    function clearStars() {
+        state.stars.length = 0;
+    }
+
+    function disruptStar(i) {
+        const s = state.stars[i];
+        if (!s) return;
+        const N = 420;
+        for (let k = 0; k < N; k++) {
+            const p = spawnParticle(false);
+            const ang = rand(0, Math.PI * 2);
+            const spd = rand(0.4, 1.5);
+            p.x = s.x + Math.cos(ang) * rand(0, s.radius * 0.6);
+            p.y = s.y + Math.sin(ang) * rand(0, s.radius * 0.6);
+            p.vx = s.vx + Math.cos(ang) * spd * rand(0.6, 1.2);
+            p.vy = s.vy + Math.sin(ang) * spd * rand(0.6, 1.2);
+            p.hue = 20 + rand(0, 20);
+            state.particles.push(p);
+        }
+        state.stars.splice(i, 1);
+        ensureParticleCount(config.particleCount);
+    }
+
+    // Drawing
+    function drawBackdrop(full = false) {
+        ctx.save();
+        ctx.globalAlpha = full ? 1 : config.fade;
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, W, H);
+        ctx.restore();
+        drawBlackHole();
+    }
+
+    function drawBlackHole() {
+        const rH = config.horizonRadius * DPR;
+        const rAcc = rH * 2.2;
+        const rGlow = rH * 3.6;
+
+        const g1 = ctx.createRadialGradient(CX, CY, rH * 1.1, CX, CY, rGlow);
+        g1.addColorStop(0.0, "rgba(255, 220, 140, 0.18)");
+        g1.addColorStop(0.3, "rgba(170, 120, 255, 0.12)");
+        g1.addColorStop(1.0, "rgba(0, 0, 0, 0)");
+        ctx.fillStyle = g1;
+        ctx.beginPath();
+        ctx.arc(CX, CY, rGlow, 0, Math.PI * 2);
+        ctx.fill();
+
+        const g2 = ctx.createRadialGradient(CX, CY, rH * 0.95, CX, CY, rAcc);
+        g2.addColorStop(0.0, "rgba(0,0,0,0)");
+        g2.addColorStop(0.2, "rgba(238, 188, 120, 0.18)");
+        g2.addColorStop(0.55, "rgba(160, 120, 255, 0.16)");
+        g2.addColorStop(1.0, "rgba(0,0,0,0)");
+        ctx.fillStyle = g2;
+        ctx.beginPath();
+        ctx.arc(CX, CY, rAcc, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(CX, CY, rH, 0, Math.PI * 2);
+        ctx.fillStyle = "#000";
+        ctx.fill();
+        ctx.lineWidth = 1.2 * DPR;
+        ctx.strokeStyle = "rgba(255,255,255,0.05)";
+        ctx.stroke();
+    }
+
+    function drawStars() {
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        for (const s of state.stars) {
+            const rGlow = s.radius * 4.5;
+            const grad = ctx.createRadialGradient(
+                s.x,
+                s.y,
+                s.radius * 0.2,
+                s.x,
+                s.y,
+                rGlow
+            );
+            grad.addColorStop(
+                0.0,
+                `hsla(${s.hue}, ${s.sat}%, ${Math.min(
+                    95,
+                    s.light + 15
+                )}%, 0.95)`
+            );
+            grad.addColorStop(
+                0.25,
+                `hsla(${s.hue}, ${s.sat}%, ${s.light}%, 0.75)`
+            );
+            grad.addColorStop(
+                0.8,
+                `hsla(${s.hue + 20}, ${s.sat - 20}%, 55%, 0.15)`
+            );
+            grad.addColorStop(1.0, `rgba(0,0,0,0)`);
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, rGlow, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `hsla(${s.hue}, ${s.sat}%, ${s.light + 5}%, 0.95)`;
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+
+    function drawParticles() {
+        const arr = state.particles;
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        for (let i = 0; i < arr.length; i++) {
+            const p = arr[i];
+            const sp = Math.hypot(p.vx, p.vy);
+            const alpha = clamp(0.08 + sp * 0.045, 0.06, 0.45);
+            const size = clamp(0.6 + sp * 0.25, 0.6, 2.4) * DPR;
+            const hue = p.hue + sp * 35;
+            ctx.fillStyle = `hsla(${hue}, 90%, 65%, ${alpha})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+
+    // Physics
+    function stepParticles(dt) {
+        const arr = state.particles;
+        const rH = config.horizonRadius * DPR;
+
+        for (let i = 0; i < arr.length; i++) {
+            const p = arr[i];
+
+            // BH gravity
+            let dx = CX - p.x,
+                dy = CY - p.y;
+            let r2 = dx * dx + dy * dy + 0.0001;
+            let r = Math.sqrt(r2);
+            let ax = ((config.G * config.bhMass) / r2) * (dx / r);
+            let ay = ((config.G * config.bhMass) / r2) * (dy / r);
+
+            // Stars gravity
+            for (let s = 0; s < state.stars.length; s++) {
+                const st = state.stars[s];
+                const sdx = st.x - p.x,
+                    sdy = st.y - p.y;
+                const sr2 = sdx * sdx + sdy * sdy + 400;
+                const sr = Math.sqrt(sr2);
+                const accS =
+                    (config.G * config.starGravityScale * st.mass) / sr2;
+                ax += accS * (sdx / sr);
+                ay += accS * (sdy / sr);
+            }
+
+            // Mouse gravity
+            if (config.mouseGravity && state.mouse.active) {
+                const mdx = state.mouse.x - p.x,
+                    mdy = state.mouse.y - p.y;
+                const mr2 = mdx * mdx + mdy * mdy + 250;
+                const mr = Math.sqrt(mr2);
+                const accM = (config.G * config.mouseMass) / mr2;
+                ax += accM * (mdx / mr);
+                ay += accM * (mdy / mr);
+            }
+
+            // Integrate & clamp
+            p.vx += ax * dt;
+            p.vy += ay * dt;
+            const vmag = Math.hypot(p.vx, p.vy);
+            const vmax = config.maxSpeed * DPR;
+            if (vmag > vmax) {
+                const s = vmax / vmag;
+                p.vx *= s;
+                p.vy *= s;
+            }
+
+            p.x += p.vx * dt * 60;
+            p.y += p.vy * dt * 60;
+
+            // Respawn if swallowed or OOB
+            if (
+                Math.hypot(p.x - CX, p.y - CY) < rH ||
+                p.x < -20 ||
+                p.y < -20 ||
+                p.x > W + 20 ||
+                p.y > H + 20
+            ) {
+                arr[i] = spawnParticle(true);
+            }
+        }
+    }
+
+    function stepStars(dt) {
+        const rH = config.horizonRadius * DPR;
+        const disruptR = rH * config.starDisruptK;
+
+        for (let i = state.stars.length - 1; i >= 0; i--) {
+            const s = state.stars[i];
+
+            // BH gravity
+            let dx = CX - s.x,
+                dy = CY - s.y;
+            let r2 = dx * dx + dy * dy + 1000;
+            let r = Math.sqrt(r2);
+            const accBH = (config.G * config.bhMass) / r2;
+            let ax = accBH * (dx / r);
+            let ay = accBH * (dy / r);
+
+            // Mouse (weak) on stars
+            if (config.mouseGravity && state.mouse.active) {
+                const mdx = state.mouse.x - s.x,
+                    mdy = state.mouse.y - s.y;
+                const mr2 = mdx * mdx + mdy * mdy + 1200;
+                const mr = Math.sqrt(mr2);
+                const accM = (config.G * (config.mouseMass * 0.35)) / mr2;
+                ax += accM * (mdx / mr);
+                ay += accM * (mdy / mr);
+            }
+
+            // Integrate with slight damping
+            s.vx += ax * dt;
+            s.vy += ay * dt;
+            s.vx *= 0.999;
+            s.vy *= 0.999;
+            s.x += s.vx * dt * 60;
+            s.y += s.vy * dt * 60;
+
+            if (Math.hypot(s.x - CX, s.y - CY) < disruptR) disruptStar(i);
+        }
+    }
+
+    // Mouse
+    function screenToCanvas(e) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+            x: (e.clientX - rect.left) * DPR,
+            y: (e.clientY - rect.top) * DPR
+        };
+    }
+    canvas.addEventListener("mousemove", (e) => {
+        const { x, y } = screenToCanvas(e);
+        state.mouse.x = x;
+        state.mouse.y = y;
+        state.mouse.active = true;
+    });
+    canvas.addEventListener("mouseleave", () => {
+        state.mouse.active = false;
+    });
+    canvas.addEventListener("mousedown", (e) => {
+        state.mouse.down = true;
+        const { x, y } = screenToCanvas(e);
+        state.mouse.x = x;
+        state.mouse.y = y;
+        for (let i = 0; i < 80; i++) {
+            const p = spawnParticle(false);
+            p.x = x + (Math.random() - 0.5) * 40 * DPR;
+            p.y = y + (Math.random() - 0.5) * 40 * DPR;
+            p.vx += (Math.random() - 0.5) * 1.2;
+            p.vy += (Math.random() - 0.5) * 1.2;
+            state.particles.push(p);
+        }
+        ensureParticleCount(config.particleCount);
+    });
+    window.addEventListener("mouseup", () => {
+        state.mouse.down = false;
+    });
+
+    // UI wiring
+    function refreshLabels() {
+        pCountLabel.textContent = config.particleCount.toString();
+        gravLabel.textContent = config.G.toString();
+        fadeLabel.textContent = config.fade.toFixed(2);
+    }
+    pCountEl.addEventListener("input", () => {
+        config.particleCount = +pCountEl.value;
+        ensureParticleCount(config.particleCount);
+        refreshLabels();
+    });
+    gravEl.addEventListener("input", () => {
+        config.G = +gravEl.value;
+        refreshLabels();
+    });
+    fadeEl.addEventListener("input", () => {
+        config.fade = +fadeEl.value;
+        refreshLabels();
+    });
+    mouseToggleEl.addEventListener("change", () => {
+        config.mouseGravity = mouseToggleEl.checked;
+    });
+
+    resetBtn.addEventListener("click", () => {
+        state.particles.length = 0;
+        ensureParticleCount(config.particleCount);
+        drawBackdrop(true);
+    });
+    burstBtn.addEventListener("click", () => {
+        for (let i = 0; i < 300; i++)
+            state.particles.push(spawnParticle(false));
+        ensureParticleCount(config.particleCount);
+    });
+    addStarBtn.addEventListener("click", () => addStar());
+    clearStarsBtn.addEventListener("click", () => clearStars());
+
+    // UI toggle with keyboard shortcut
+    const uiPanel = document.querySelector(".ui");
+    window.addEventListener("keydown", (e) => {
+        // Press 'U' to toggle UI visibility
+        if (e.key.toLowerCase() === "u") {
+            e.preventDefault();
+            if (uiPanel.style.display === "none") {
+                uiPanel.style.display = "grid";
+            } else {
+                uiPanel.style.display = "none";
+            }
+        }
+    });
+
+    // Init
+    ensureParticleCount(config.particleCount);
+    refreshLabels();
+    addStar({
+        ang: Math.PI * 0.15,
+        r: Math.min(W, H) * 0.28,
+        mass: 1.6,
+        radius: 7 * DPR
+    });
+    addStar({
+        ang: Math.PI * 1.2,
+        r: Math.min(W, H) * 0.22,
+        mass: 2.0,
+        radius: 8 * DPR
+    });
+
+    let last = performance.now();
+    function loop(now) {
+        const dt = clamp((now - last) / 1000, 0.001, 0.05);
+        last = now;
+
+        drawBackdrop();
+        stepStars(dt);
+        stepParticles(dt);
+        drawStars();
+        drawParticles();
+
+        requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+}
+
+

@@ -1,0 +1,20 @@
+{
+  "intro": "I'm <strong>Ankit Singh</strong>, a final-year Cybersecurity student specializing in offensive security, penetration testing, digital forensics, OSINT investigations, and secure architecture design.",
+  "highlights": [
+    {
+      "title": "Offensive Mindset",
+      "description": "Daily labs on Red Team tradecraft, exploit dev, adversary simulation."
+    },
+    {
+      "title": "Blue Team Discipline",
+      "description": "Detection engineering, DFIR playbooks, log forensics and SIEM tuning."
+    }
+  ],
+  "tags": [
+    "Threat Modeling",
+    "Cloud Pentesting",
+    "OSINT Automation",
+    "Malware Analysis"
+  ],
+  "philosophy": "I love breaking systems ethically—and then fixing them with secure-by-default controls. My workflow blends research, hands-on labs, and writing actionable reports for engineers."
+}

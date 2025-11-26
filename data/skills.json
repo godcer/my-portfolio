@@ -1,0 +1,44 @@
+[
+    {
+        "icon": "⚔️",
+        "name": "Pentesting",
+        "detail": "OWASP & Burp",
+        "orbitSize": "200px",
+        "delay": "0s"
+    },
+    {
+        "icon": "🛡️",
+        "name": "Network Security",
+        "detail": "Nmap & Wireshark",
+        "orbitSize": "280px",
+        "delay": "1.2s"
+    },
+    {
+        "icon": "🔍",
+        "name": "OSINT",
+        "detail": "Metadata Extraction",
+        "orbitSize": "240px",
+        "delay": "2.4s"
+    },
+    {
+        "icon": "🔬",
+        "name": "Malware Analysis",
+        "detail": "Static Analysis",
+        "orbitSize": "260px",
+        "delay": "3.6s"
+    },
+    {
+        "icon": "🔎",
+        "name": "Digital Forensics",
+        "detail": "Memory Forensics",
+        "orbitSize": "220px",
+        "delay": "4.8s"
+    },
+    {
+        "icon": "💻",
+        "name": "Programming",
+        "detail": "Python & Bash",
+        "orbitSize": "270px",
+        "delay": "6s"
+    }
+]

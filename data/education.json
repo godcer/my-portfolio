@@ -1,0 +1,14 @@
+[
+    {
+        "degree": "B.Sc Cybersecurity (Hons)",
+        "institution": "University of XYZ — 4th Year",
+        "description": "Offensive security, DFIR, secure coding, OSINT research.",
+        "coverText": "Bachelor's<br>Degree"
+    },
+    {
+        "degree": "Higher Secondary Education",
+        "institution": "CBSE Board",
+        "description": "Science stream with Computer Science foundation.",
+        "coverText": "High School"
+    }
+]
