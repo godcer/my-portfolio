@@ -142,3 +142,27 @@ input[type="range"]::-moz-range-thumb {
 input[type="checkbox"] {
     accent-color: var(--accent);
 }
+
+/* Invisible Scrollbar */
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: none;
+}
+
+/* IE and Edge */
+* {
+    -ms-overflow-style: none;
+}
