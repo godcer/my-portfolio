@@ -6,17 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio with Black Hole Entrance</title>
 
-    <!-- Luxury Fonts -->
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/home.min.css" as="style">
+    <link rel="preload" href="js/blackhole-entrance.min.js" as="script">
+
+    <!-- Luxury Fonts (async) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
 
-    <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/blackhole-entrance.css">
-    <link rel="stylesheet" href="css/portfolio-blackhole.css">
-    <link rel="stylesheet" href="css/home.css">
+    <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous" async></script>
+    <link rel="stylesheet" href="css/blackhole-entrance.min.css">
+    <link rel="stylesheet" href="css/portfolio-blackhole.min.css">
+    <link rel="stylesheet" href="css/home.min.css">
     <link rel="stylesheet" href="css/portfolio-styles.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
@@ -283,22 +287,22 @@
     </div>
 
     <!-- Component Scripts -->
-    <script src="components/AboutPanel.js"></script>
-    <script src="components/ExperienceCard.js"></script>
-    <script src="components/SkillOrb.js"></script>
-    <script src="components/CertificateCard.js"></script>
-    <script src="components/EducationPillar.js"></script>
-    <script src="components/ProjectCard.js"></script>
+    <script src="components/AboutPanel.js" defer></script>
+    <script src="components/ExperienceCard.js" defer></script>
+    <script src="components/SkillOrb.js" defer></script>
+    <script src="components/CertificateCard.js" defer></script>
+    <script src="components/EducationPillar.js" defer></script>
+    <script src="components/ProjectCard.js" defer></script>
 
     <!-- Content Renderer (loads JSON and renders components) -->
-    <script src="js/content-renderer.js"></script>
+    <script src="js/content-renderer.min.js" defer></script>
 
     <!-- Existing Scripts -->
-    <script src="js/blackhole-entrance.js"></script>
-    <script src="js/portfolio-blackhole.js"></script>
-    <script src="js/nav-scroll.js"></script>
-    <script src="js/project-tilt.js"></script>
-    <script src="js/page-loader.js"></script>
+    <script src="js/blackhole-entrance.min.js" defer></script>
+    <script src="js/portfolio-blackhole.min.js" defer></script>
+    <script src="js/nav-scroll.js" defer></script>
+    <script src="js/project-tilt.min.js" defer></script>
+    <script src="js/page-loader.js" defer></script>
 </body>
 
 </html>
