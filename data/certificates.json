@@ -5,6 +5,7 @@
         "title": "CEH v12 Training",
         "subtitle": "Offensive Security, Red Ops",
         "buttonText": "View Credential",
+        "link": "https://example.com/ceh-certificate",
         "cardClass": "one"
     },
     {
@@ -13,6 +14,7 @@
         "title": "Google Cybersecurity",
         "subtitle": "SOC Playbooks, DFIR, SIEM",
         "buttonText": "View Credential",
+        "link": "https://example.com/google-certificate",
         "cardClass": "two"
     },
     {
@@ -21,6 +23,7 @@
         "title": "Advanced Pentesting",
         "subtitle": "Adversary Emulation Paths",
         "buttonText": "View Lab",
+        "link": "https://tryhackme.com/p/yourusername",
         "cardClass": "three"
     }
 ]

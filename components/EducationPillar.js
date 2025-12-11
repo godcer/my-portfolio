@@ -37,13 +37,19 @@ function EducationPillar(data = {}) {
         degree = 'Degree',
         institution = '',
         description = '',
-        coverText = 'Education'
+        coverText = 'Education',
+        link = null
     } = data;
+
+    // Create a linked or non-linked title
+    const titleHtml = link
+        ? `<a href="${link}" target="_blank" style="color:inherit; text-decoration:none; border-bottom: 1px dotted rgba(255,255,255,0.5);"><h3>${degree}</h3></a>`
+        : `<h3>${degree}</h3>`;
 
     return `
         <div class="edu-book book">
             <div class="edu-inner">
-                <h3>${degree}</h3>
+                ${titleHtml}
                 <p class="edu-org">${institution}</p>
                 <p>${description}</p>
             </div>

@@ -3,12 +3,14 @@
         "degree": "B.Sc Cybersecurity (Hons)",
         "institution": "University of XYZ — 4th Year",
         "description": "Offensive security, DFIR, secure coding, OSINT research.",
-        "coverText": "Bachelor's<br>Degree"
+        "coverText": "Bachelor's<br>Degree",
+        "link": "https://university.example.com"
     },
     {
         "degree": "Higher Secondary Education",
         "institution": "CBSE Board",
         "description": "Science stream with Computer Science foundation.",
-        "coverText": "High School"
+        "coverText": "High School",
+        "link": "https://school.example.com"
     }
 ]

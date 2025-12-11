@@ -40,6 +40,7 @@
  * @param {string} data.cardClass - Card class for stacking
  * @returns {string} HTML string for certificate card
  */
+
 function CertificateCard(data = {}) {
     const {
         issuer = '',
@@ -47,6 +48,7 @@ function CertificateCard(data = {}) {
         title = 'Certificate',
         subtitle = '',
         buttonText = 'View',
+        link = '#',
         cardClass = 'one'
     } = data;
 
@@ -55,7 +57,7 @@ function CertificateCard(data = {}) {
             <div class="cardDetails">
                 <span class="cardDetailsHaeder">${issuer}</span>
                 <span class="cardDetailsMeta">${issuedDate}</span>
-                <button class="cardDetailsButton">${buttonText}</button>
+                <a href="${link}" target="_blank" class="cardDetailsButton" style="text-decoration:none; display:inline-block; text-align:center; line-height:normal;">${buttonText}</a>
             </div>
             <div class="card-body">
                 <p class="card-title">${title}</p>
