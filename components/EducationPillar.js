@@ -43,7 +43,7 @@ function EducationPillar(data = {}) {
 
     // Create a linked or non-linked title
     const titleHtml = link
-        ? `<a href="${link}" target="_blank" style="color:inherit; text-decoration:none; border-bottom: 1px dotted rgba(255,255,255,0.5);"><h3>${degree}</h3></a>`
+        ? `<a href="${link}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none; border-bottom: 1px dotted rgba(255,255,255,0.5);"><h3>${degree}</h3></a>`
         : `<h3>${degree}</h3>`;
 
     return `

@@ -28,7 +28,7 @@
 <body>
     <!-- Black Hole Entrance -->
     <div id="blackhole">
-        <div class="centerHover"><span>Godcer</span></div>
+        <div class="centerHover"><span>Ankit Singh </span></div>
     </div>
 
 
@@ -47,9 +47,9 @@
             <nav class="nav-links">
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#about" class="nav-link">About</a>
-                <a href="#skills" class="nav-link">Skills</a>
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#projects" class="nav-link">Projects</a>
+                <a href="#skills" class="nav-link">Skills</a>
                 <a href="#certificates" class="nav-link">Certificates</a>
                 <a href="#education" class="nav-link">Education</a>
                 <a href="#contact" class="nav-link">Contact</a>
@@ -92,7 +92,9 @@
                 <div class="hero-image">
                     <div class="profile-card">
                         <div class="profile-glow"></div>
-                        <img src="dummy_profile.png" alt="Ankit Singh - Cybersecurity Specialist" loading="lazy">
+                        <!-- Replaced missing PNG with optimized SVG -->
+                        <img src="assets/dummy_profile.svg" alt="Ankit Singh - Cybersecurity Specialist" width="400"
+                            height="400" loading="eager">
                     </div>
                 </div>
             </section>
@@ -213,34 +215,66 @@
                 <div class="contact-card glass">
                     <div class="contact-header">
                         <div class="contact-avatar">
-                            <i class="fas fa-user-astronaut"></i>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                style="width: 32px; height: 32px; filter: drop-shadow(0 0 5px rgba(0, 224, 255, 0.5));">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 5C13.66 5 15 6.34 15 8C15 9.66 13.66 11 12 11C10.34 11 9 9.66 9 8C9 6.34 10.34 5 12 5ZM12 19.2C9.5 19.2 7.29 17.92 6 15.98C6.03 13.99 10 12.9 12 12.9C13.99 12.9 17.97 13.99 18 15.98C16.71 17.92 14.5 19.2 12 19.2Z"
+                                    fill="currentColor" />
+                            </svg>
                         </div>
                         <h3>Let's Connect</h3>
                         <p class="contact-sub">Got a project or just want to say hi?</p>
                     </div>
 
                     <form class="contact-form-clean">
+                        <!-- Honeypot for spam protection -->
+                        <input type="text" name="_gotcha" style="display:none" />
+
                         <div class="input-group">
-                            <input type="text" placeholder="Your Name" required />
+                            <input type="text" name="name" placeholder="Your Name" required />
                         </div>
                         <div class="input-group">
-                            <input type="email" placeholder="Email Address" required />
+                            <input type="email" name="email" placeholder="Email Address" required />
                         </div>
                         <div class="input-group">
-                            <textarea rows="4" placeholder="Your Message" required></textarea>
+                            <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
                         </div>
 
-                        <button type="submit" class="btn-submit">Send Message</button>
-
-                        <button type="button" class="btn-gmail">
-                            <i class="fab fa-google"></i> Send via Gmail
+                        <button type="submit" class="btn-submit">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane" style="margin-left: 8px;"></i>
                         </button>
+
+
                     </form>
 
                     <div class="contact-footer">
-                        <a href="#" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <!-- GitHub -->
+                        <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="social-link"
+                            aria-label="GitHub Profile">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-7.795-3.795-7.795-.525-1.335-1.275-1.695-1.275-1.695-1.095-.75.09-.735.09-.735 1.2.09 1.83 1.23 1.83 1.23 1.08 1.83 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405 1.02 0 2.04.135 3 .405 2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.285 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" class="social-link"
+                            aria-label="LinkedIn Profile">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                            </svg>
+                        </a>
+
+                        <!-- X (Twitter) - Chosen for Infosec Community -->
+                        <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" class="social-link"
+                            aria-label="X (Twitter) Profile">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </section>

@@ -1,11 +1,109 @@
-
-
-
-
-
-
-
-
-
-
 /* home section starts here  */
+
+/* --- Contact Avatar Refresh --- */
+.contact-avatar svg {
+    width: 36px;
+    height: 36px;
+    color: var(--primary-cyan);
+    transition: all 0.5s ease;
+    filter: drop-shadow(0 0 8px rgba(0, 224, 255, 0.4));
+}
+
+.contact-card:hover .contact-avatar svg {
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 0 15px rgba(0, 224, 255, 0.8));
+    color: #fff;
+}
+
+.contact-card:hover .contact-avatar {
+    background: rgba(0, 224, 255, 0.15);
+    border-color: var(--primary-cyan);
+    box-shadow: 0 0 30px rgba(0, 224, 255, 0.3);
+}
+
+/* --- Social Icons Customization --- */
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 10px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.social-link svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: rgba(0, 255, 242, 0.1);
+    border-color: #00fff2;
+    color: #00fff2;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 255, 242, 0.2);
+}
+
+.social-link:hover svg {
+    filter: drop-shadow(0 0 5px rgba(0, 255, 242, 0.6));
+    transform: scale(1.1);
+}
+
+/* --- Navbar Glassmorphism & Scrolled State --- */
+.main-header {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(255, 255, 255, 0.00);
+    /* Fully transparent initially */
+    backdrop-filter: blur(0px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0);
+    padding: 15px 4%;
+    /* Initial comfort padding */
+}
+
+/* Scrolled state: Darker, deeper glass */
+.main-header.scrolled {
+    background: rgba(8, 8, 15, 0.7) !important;
+    backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(0, 255, 242, 0.15);
+    /* Subtle cyan border */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+    padding: 10px 4% !important;
+    /* Compact padding */
+}
+
+/* --- Navigation Links --- */
+.nav-link {
+    position: relative;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+}
+
+/* Active State: Neon Glow */
+.nav-link.active {
+    color: #00fff2 !important;
+    /* Cyan */
+    text-shadow:
+        0 0 10px rgba(0, 255, 242, 0.6),
+        0 0 20px rgba(0, 255, 242, 0.3);
+}
+
+/* Active Indicator Dot (Optional underline effect) */
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #00fff2;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00fff2;
+}

@@ -57,7 +57,7 @@ function CertificateCard(data = {}) {
             <div class="cardDetails">
                 <span class="cardDetailsHaeder">${issuer}</span>
                 <span class="cardDetailsMeta">${issuedDate}</span>
-                <a href="${link}" target="_blank" class="cardDetailsButton" style="text-decoration:none; display:inline-block; text-align:center; line-height:normal;">${buttonText}</a>
+                <a href="${link}" target="_blank" rel="noopener noreferrer" class="cardDetailsButton" style="text-decoration:none; display:inline-block; text-align:center; line-height:normal;">${buttonText}</a>
             </div>
             <div class="card-body">
                 <p class="card-title">${title}</p>

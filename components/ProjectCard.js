@@ -46,7 +46,7 @@ function ProjectCard(data = {}) {
         <div class="project-card glass">
             <h3>${title}</h3>
             <p>${description}</p>
-            <a class="btn-outline" href="${link}">${buttonText}</a>
+            <a class="btn-outline" href="${link}" target="_blank" rel="noopener noreferrer">${buttonText}</a>
         </div>
     `;
 }
