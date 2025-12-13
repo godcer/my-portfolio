@@ -31,11 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     async function handleFormSubmit(e) {
         e.preventDefault();
 
-        const formData = new FormData(contactForm);
-        const { name, email, message } = Object.fromEntries(formData);
+        // 1. Extract data
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
 
-        // Basic Validation
-        if (!name || !email || !message) {
+        // Basic validation (optional, as HTML5 'required' handles most)
+        if (!data.name || !data.email || !data.message) {
             showFeedback('Please fill in all fields.', 'error');
             return;
         }
@@ -45,16 +46,19 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(FORMSPREE_ENDPOINT, {
                 method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
             });
 
             if (response.ok) {
                 showFeedback('Message successfully sent!', 'success');
                 contactForm.reset();
             } else {
-                const data = await response.json();
-                const errorMsg = data.errors?.map(err => err.message).join(", ") || 'Oops! Something went wrong.';
+                const resData = await response.json();
+                const errorMsg = resData.errors?.map(err => err.message).join(", ") || 'Oops! Something went wrong.';
                 showFeedback(errorMsg, 'error');
             }
         } catch (error) {
