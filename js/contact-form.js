@@ -58,7 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 contactForm.reset();
             } else {
                 const resData = await response.json();
-                const errorMsg = resData.errors?.map(err => err.message).join(", ") || 'Oops! Something went wrong.';
+                console.error('Formspree Error Response:', resData); // Debug log
+                // Formspree can return { error: string } or { errors: [{field, message}] }
+                const errorMsg = resData.error || resData.errors?.map(err => err.message).join(", ") || 'Oops! Something went wrong.';
                 showFeedback(errorMsg, 'error');
             }
         } catch (error) {
