@@ -1,89 +1,83 @@
 /**
  * Contact Form Handler
- * Integration with Formspree for efficient, server-less email handling.
+ * Integration with Formspree for server-less email handling.
+ * Refactored for cleanliness and maintainability.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.querySelector('.contact-form-clean');
-    const submitBtn = contactForm ? contactForm.querySelector('.btn-submit') : null;
-    const originalBtnContent = submitBtn ? submitBtn.innerHTML : 'Send Message';
+    if (!contactForm) return;
 
-    // Replace with your specific Formspree Endpoint
-    // Example: https://formspree.io/f/xyzaqwer
+    // Configuration
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/myzrbkab';
 
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+    // Elements
+    const submitBtn = contactForm.querySelector('.btn-submit');
+    const originalBtnContent = submitBtn ? submitBtn.innerHTML : 'Send Message';
+    const gmailBtn = document.querySelector('.btn-gmail');
 
-            // 1. Basic Validation
-            const formData = new FormData(contactForm);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const message = formData.get('message');
+    // --- Event Listeners ---
 
-            if (!name || !email || !message) {
-                showFeedback('Please fill in all fields.', 'error');
-                return;
-            }
+    // 1. Form Submission
+    contactForm.addEventListener('submit', handleFormSubmit);
 
-            // 2. UI: Sending State
-            setLoadingState(true);
+    // 2. Gmail Button
+    if (gmailBtn) {
+        gmailBtn.addEventListener('click', handleGmailClick);
+    }
 
-            // 3. Send Data to Formspree
-            try {
-                const response = await fetch(FORMSPREE_ENDPOINT, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
+    // --- Handlers ---
 
-                if (response.ok) {
-                    // Success
-                    showFeedback('Message successfully sent!', 'success');
-                    contactForm.reset();
-                } else {
-                    // Formspree Validation Error
-                    const data = await response.json();
-                    if (Object.hasOwn(data, 'errors')) {
-                        const errorMsg = data.errors.map(err => err.message).join(", ");
-                        showFeedback(errorMsg, 'error');
-                    } else {
-                        showFeedback('Oops! Something went wrong.', 'error');
-                    }
-                }
-            } catch (error) {
-                // Network Error
-                showFeedback('Network error. Please try again later.', 'error');
-                console.error('Contact Form Error:', error);
-            } finally {
-                // Restore Button State
-                setLoadingState(false);
-            }
-        });
+    async function handleFormSubmit(e) {
+        e.preventDefault();
 
-        // Gmail specific button (Preserved functional logic)
-        const gmailBtn = document.querySelector('.btn-gmail');
-        if (gmailBtn) {
-            gmailBtn.addEventListener('click', () => {
-                const nameInput = contactForm.querySelector('input[name="name"]');
-                const messageInput = contactForm.querySelector('textarea[name="message"]');
+        const formData = new FormData(contactForm);
+        const { name, email, message } = Object.fromEntries(formData);
 
-                const name = (nameInput && nameInput.value) || "Visitor";
-                const message = (messageInput && messageInput.value) || "Hi, I'd like to connect.";
+        // Basic Validation
+        if (!name || !email || !message) {
+            showFeedback('Please fill in all fields.', 'error');
+            return;
+        }
 
-                const subject = `Portfolio Contact from ${name}`;
-                const body = `Message:%0D%0A${message}`;
+        setLoadingState(true);
 
-                const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=ankitssingh358@gmail.com&su=${encodeURIComponent(subject)}&body=${body}`;
-                window.open(gmailUrl, '_blank');
+        try {
+            const response = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
             });
+
+            if (response.ok) {
+                showFeedback('Message successfully sent!', 'success');
+                contactForm.reset();
+            } else {
+                const data = await response.json();
+                const errorMsg = data.errors?.map(err => err.message).join(", ") || 'Oops! Something went wrong.';
+                showFeedback(errorMsg, 'error');
+            }
+        } catch (error) {
+            console.error('Contact Form Error:', error);
+            showFeedback('Network error. Please try again later.', 'error');
+        } finally {
+            setLoadingState(false);
         }
     }
 
-    // --- Helper Functions ---
+    function handleGmailClick() {
+        const name = contactForm.querySelector('input[name="name"]')?.value || "Visitor";
+        const message = contactForm.querySelector('textarea[name="message"]')?.value || "Hi, I'd like to connect.";
+
+        const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+        const body = encodeURIComponent(`Message:\r\n${message}`); // \r\n is safer for mailto/web links
+
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=ankitssingh358@gmail.com&su=${subject}&body=${body}`;
+
+        window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    // --- UI Utilities ---
 
     function setLoadingState(isLoading) {
         if (!submitBtn) return;
@@ -102,37 +96,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showFeedback(message, type) {
-        // Create or reuse feedback element
         let feedbackEl = contactForm.querySelector('.form-feedback');
 
+        // Create if doesn't exist
         if (!feedbackEl) {
             feedbackEl = document.createElement('div');
             feedbackEl.className = 'form-feedback';
-            feedbackEl.style.marginTop = '15px';
-            feedbackEl.style.padding = '10px';
-            feedbackEl.style.borderRadius = '8px';
-            feedbackEl.style.fontSize = '0.9rem';
-            feedbackEl.style.textAlign = 'center';
-            feedbackEl.style.fontWeight = '500';
+            // Styling could be moved to CSS, but keeping here to avoid cross-file dependency risk during refactor
+            Object.assign(feedbackEl.style, {
+                marginTop: '15px',
+                padding: '10px',
+                borderRadius: '8px',
+                fontSize: '0.9rem',
+                textAlign: 'center',
+                fontWeight: '500'
+            });
             contactForm.appendChild(feedbackEl);
         }
 
-        // Style based on type
+        // Apply visual state
         if (type === 'success') {
-            feedbackEl.style.color = '#00fff2';
-            feedbackEl.style.background = 'rgba(0, 255, 242, 0.1)';
-            feedbackEl.style.border = '1px solid rgba(0, 255, 242, 0.2)';
+            Object.assign(feedbackEl.style, {
+                color: '#00fff2',
+                background: 'rgba(0, 255, 242, 0.1)',
+                border: '1px solid rgba(0, 255, 242, 0.2)'
+            });
         } else {
-            feedbackEl.style.color = '#ff4d4d'; // Red error
-            feedbackEl.style.background = 'rgba(255, 77, 77, 0.1)';
-            feedbackEl.style.border = '1px solid rgba(255, 77, 77, 0.2)';
+            Object.assign(feedbackEl.style, {
+                color: '#ff4d4d',
+                background: 'rgba(255, 77, 77, 0.1)',
+                border: '1px solid rgba(255, 77, 77, 0.2)'
+            });
         }
 
         feedbackEl.textContent = message;
 
-        // Auto-hide after 5 seconds
-        setTimeout(() => {
-            feedbackEl.remove();
-        }, 5000);
+        // Auto-dissolve
+        setTimeout(() => feedbackEl.remove(), 5000);
     }
 });
