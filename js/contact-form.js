@@ -30,18 +30,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleFormSubmit(e) {
         e.preventDefault();
+        if (submitBtn.disabled) return; // Prevent double-submission
 
-        // 1. Extract data
+        // 1. Extract Data
         const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
+        const rawData = Object.fromEntries(formData.entries());
 
-        // Basic validation (optional, as HTML5 'required' handles most)
-        if (!data.name || !data.email || !data.message) {
+        // 2. Security: Client-Side Honeypot (Bot Trap)
+        // If _gotcha is hidden but filled, it's a bot. Fake success to save quota.
+        if (rawData._gotcha) {
+            console.warn("Spam detected via honeypot. Simulating success.");
+            showFeedback('Message successfully sent!', 'success');
+            contactForm.reset();
+            return;
+        }
+
+        // 3. Sanitization & Validation
+        const name = (rawData.name || "").trim();
+        const email = (rawData.email || "").trim();
+        const message = (rawData.message || "").trim();
+
+        if (!name || !email || !message) {
             showFeedback('Please fill in all fields.', 'error');
             return;
         }
 
+        // Strict Email Check
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showFeedback('Please enter a valid email address.', 'error');
+            return;
+        }
+
+        // 4. Submission
         setLoadingState(true);
+
+        // meaningful payload only
+        const payload = { name, email, message };
 
         try {
             const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -50,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(payload)
             });
 
             if (response.ok) {
@@ -58,8 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 contactForm.reset();
             } else {
                 const resData = await response.json();
-                console.error('Formspree Error Response:', resData); // Debug log
-                // Formspree can return { error: string } or { errors: [{field, message}] }
+                console.error('Formspree Error Response:', resData);
                 const errorMsg = resData.error || resData.errors?.map(err => err.message).join(", ") || 'Oops! Something went wrong.';
                 showFeedback(errorMsg, 'error');
             }
