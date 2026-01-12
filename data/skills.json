@@ -33,5 +33,12 @@
         "detail": "Python & Bash",
         "orbitSize": "270px",
         "delay": "6s"
+    },
+    {
+        "icon": "🔐",
+        "name": "Cryptography",
+        "detail": "Encryption Algorithms",
+        "orbitSize": "250px",
+        "delay": "7.2s"
     }
 ]
