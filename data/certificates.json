@@ -1,29 +1,38 @@
 [
     {
-        "issuer": "EC-Council",
+        "issuer": "IBM Cybersecurity Analyst • Coursera",
         "issuedDate": "2024",
-        "title": "CEH v12 Training",
+        "title": "IBM Cybersecurity Analyst",
         "subtitle": "Offensive Security, Red Ops",
         "buttonText": "View Credential",
-        "link": "https://example.com/ceh-certificate",
+        "link": "https://coursera.org/verify/professional-cert/DOYAVKM55L9X",
         "cardClass": "one"
     },
     {
-        "issuer": "Google • Coursera",
+        "issuer": "Google Cybersecurity • Coursera",
         "issuedDate": "2023",
         "title": "Google Cybersecurity",
         "subtitle": "SOC Playbooks, DFIR, SIEM",
         "buttonText": "View Credential",
-        "link": "https://example.com/google-certificate",
+        "link": "https://coursera.org/verify/professional-cert/DOYAVKM55L9X",
         "cardClass": "two"
     },
     {
-        "issuer": "TryHackMe / HTB",
-        "issuedDate": "Ongoing Labs",
-        "title": "Advanced Pentesting",
-        "subtitle": "Adversary Emulation Paths",
+        "issuer": "CISCO ",
+        "issuedDate": "2022",
+        "title": "cybersecurity Essentials ",
+        "subtitle": "Network Security Fundamentals",
         "buttonText": "View Lab",
-        "link": "https://tryhackme.com/p/yourusername",
+        "link": "https://www.credly.com/badges/1bc2f455-3c94-4b38-a5ee-1339ee5afd00/public_url",
         "cardClass": "three"
+    },
+    {
+        "issuer": "CISCO ",
+        "issuedDate": "2022",
+        "title": "Introduction to Cybersecurity",
+        "subtitle": "Basic cybersecurity concepts",
+        "buttonText": "View Credential",
+        "link": "https://www.credly.com/badges/1bc2f455-3c94-4b38-a5ee-1339ee5afd00/public_url",
+        "cardClass": "four"
     }
 ]

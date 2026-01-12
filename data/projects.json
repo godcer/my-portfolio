@@ -1,20 +1,15 @@
 [
     {
-        "title": "OIPA – OSINT Image Privacy Analyzer",
-        "description": "Face detection, metadata extraction, reverse search & privacy scoring tool.",
+        "title": "Mini SOC & SIEM Platform",
+        "description": "Advanced Security Operations Center Dashboard & Simulation Engine.",
         "buttonText": "View Project",
-        "link": "https://github.com/yourusername/oipa"
+        "link": "https://github.com/godcer/mini-soc"
     },
     {
-        "title": "Drishya – Real-Time Face Recognition OSINT",
-        "description": "Face vector DB, entity extraction, OSINT enrichment, live tracking.",
+        "title": "Web OSI Visualiser",
+        "description": "A premium, interactive visualization tool designed to bridge the gap between abstract network concepts and real-time security operations.This project features a 3D exploded view of the OSI model integrated with a high-fidelity Cyber SOC dashboard..",
         "buttonText": "View Project",
-        "link": "https://github.com/yourusername/drishya"
-    },
-    {
-        "title": "Network Attack Lab",
-        "description": "ARP spoofing, DNS poisoning, MITM, traffic sniffing, security fixes.",
-        "buttonText": "View Project",
-        "link": "https://github.com/yourusername/network-lab"
+        "link": "https://github.com/godcer/web-osi-visualiser"
     }
+    
 ]

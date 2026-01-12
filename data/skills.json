@@ -21,13 +21,6 @@
         "delay": "2.4s"
     },
     {
-        "icon": "🔬",
-        "name": "Malware Analysis",
-        "detail": "Static Analysis",
-        "orbitSize": "260px",
-        "delay": "3.6s"
-    },
-    {
         "icon": "🔎",
         "name": "Digital Forensics",
         "detail": "Memory Forensics",

@@ -1,20 +1,9 @@
 [
     {
-        "title": "Cybersecurity Intern",
-        "company": "XYZ Security Labs • 2024",
-        "chip": "30+ Pentests",
-        "colorClass": "red"
-    },
-    {
         "title": "Bug Bounty Hunter",
         "company": "HackerOne & Bugcrowd",
-        "chip": "18 Responsible Disclosures",
+        "chip": " Responsible Disclosures",
         "colorClass": "blue"
-    },
-    {
-        "title": "Cyber Labs Lead",
-        "company": "University War Rooms",
-        "chip": "DFIR • Malware • Blue Team",
-        "colorClass": "green"
     }
+    
 ]

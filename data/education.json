@@ -1,16 +1,16 @@
 [
     {
         "degree": "B.Sc Cybersecurity (Hons)",
-        "institution": "University of XYZ — 4th Year",
+        "institution": "Dr. Vishwanath Karad MIT World Peace University — 4th Year",
         "description": "Offensive security, DFIR, secure coding, OSINT research.",
         "coverText": "Bachelor's<br>Degree",
-        "link": "https://university.example.com"
+        "link": "https://mitwpu.edu.in"
     },
     {
         "degree": "Higher Secondary Education",
-        "institution": "CBSE Board",
+        "institution": "Vishwakarma Vidhyalaya Junior College, Pune",
         "description": "Science stream with Computer Science foundation.",
         "coverText": "High School",
-        "link": "https://school.example.com"
+        "link": "https://vvjc.in"
     }
 ]
